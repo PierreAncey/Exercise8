@@ -1,0 +1,48 @@
+%% Chargement des resultats %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fichier = 'output';
+data = load([fichier,'_observables.out']);
+t = data(:,1);
+Pgauche = data(:,2);
+Pdroite = data(:,3);
+Ptot = data(:,4);
+E = data(:,5);
+xmoy = data(:,6);
+x2moy = data(:,7);
+pmoy = data(:,8);
+p2moy = data(:,9);
+DeltaxDeltap = data(:,10); %(Delta x)(Delta p)
+Deltax = data(:,11);
+Deltap = data(:,12);
+data = load([fichier,'_potential.out']);
+x = data(:,1);
+V = data(:,2);
+tpsi2 = load([fichier,'_psi2.out']);
+[nt,nx1]=size(tpsi2);
+psi2 = tpsi2(2:nt,2:nx1);
+
+%% Figures %%
+%%%%%%%%%%%%%
+fs=16;lw=2; % fs est utilisé pour la taille de la police, lw pour l'épaisseur des lignes
+figure
+plot(t,Pgauche, t,Pdroite,t,Ptot,'linewidth',lw)
+set(gca,'fontsize',fs)
+grid on
+xlabel('t')
+ylabel('P')
+legend('P_{x<0}','P_{x>0}','P_{tot}','Location','Best')
+%figure('Name',['Analyse de ' fichier], 'unit', 'norm', 'pos', [1,.1,.8,.3])
+
+figure
+plot(t,E,'linewidth',lw)
+set(gca,'fontsize',fs)
+grid on
+xlabel('t')
+ylabel('E')
+
+figure
+plot(t,DeltaxDeltap,'linewidth',lw)
+set(gca,'fontsize',fs)
+grid on
+xlabel('t')
+ylabel('<\Delta x> <\Delta p>')

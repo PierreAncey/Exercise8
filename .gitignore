@@ -1,0 +1,11 @@
+# Ignores certain extensions
+*.out
+*.exe
+
+# Ignores certain files
+ConfigFile.hpp
+ConfigFile.h
+Makefile
+
+# Ignores certain folders 
+/old/
