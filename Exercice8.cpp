@@ -93,7 +93,7 @@ int main(int argc,char **argv){
   
   double omega2 = m*omega*omega;
 
-  // Paramètres numeriques :
+  // Paramètres numériques :
   double dt      = configFile.get<double>("dt");
   int Ninters    = configFile.get<int>("Ninters");
   int Npoints    = Ninters + 1;
@@ -135,12 +135,12 @@ int main(int argc,char **argv){
   // TODO: calculer les éléments des matrices A, B et H.
   // Ces matrices sont stockées sous forme tridiagonale, d:diagonale, c et a: diagonales supérieures et inférieures
   for(int i(0); i<Npoints; ++i){ // Boucle sur les points de maillage
-    dH[i] = complex<double> (pow(hbar,2)/(pow(dx,2)*m) + V[i], 0.); // MODIFIER
+    dH[i] = pow(hbar,2)/(pow(dx,2)*m) + V[i]; // MODIFIER
     dA[i] = 1. + 2.*a + b[i]; // MODIFIER
     dB[i] = 1. - 2.*a - b[i]; // MODIFIER
   }
   for(int i(0); i<Ninters; ++i){ // Boucle sur les intervalles
-    aH[i] = cH[i] = complex<double> (-pow(hbar,2)/(2.*pow(dx,2)*m), 0.); // MODIFIER
+    aH[i] = cH[i] = -pow(hbar,2)/(2.*pow(dx,2)*m); // MODIFIER
     aA[i] = cA[i] = -a; // MODIFIER
     aB[i] = cB[i] = a; // MODIFIER
   }
@@ -185,7 +185,7 @@ int main(int argc,char **argv){
         psi[i] = polar(window*abs(psi[i]),arg(psi[i]));
       }
       for(int i(abs(Ninters*(xdb-xL)/(xL-xR))); i<Ninters; ++i){
-        window = pow(0.5*M_PI*x[i]/(xR-xdb),2.0);
+        window = pow(cos(0.5*M_PI*x[i]/(xR-xdb)),2.0);
         psi[i] = polar(window*abs(psi[i]),arg(psi[i]));
       }
       psi = normalize(psi, dx); // Normalise psi pour que la proba totale soit 1
@@ -288,7 +288,7 @@ double E(vec_cmplx const& psi, vec_cmplx const& diagH, vec_cmplx const& lowerH, 
 
   // Intégrale de psi*H(psi) dx
   for(size_t i(0); i<psi.size()-1; ++i){
-    resultat += (conj(psi[i+1])*psi_tmp[i+1] + conj(psi[i])*psi_tmp[i])*0.5*dx;
+    resultat += ((conj(psi[i+1])*psi_tmp[i+1]) + (conj(psi[i])*psi_tmp[i]))*0.5*dx;
   }
 
   return real(resultat);

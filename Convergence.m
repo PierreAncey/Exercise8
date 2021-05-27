@@ -11,13 +11,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 lw = 2; fs = 16; ms = 10;
 
-repertoire = '~/MATLAB/Exercice8_2021/'; % Chemin d'acces au code compile
+repertoire = ''; % Chemin d'acces au code compile
 executable = 'Exercice8'; % Nom de l'executable
 input = 'configuration.in'; % Nom du fichier d'entree
 
 nsimul = 5; % Nombre de simulations a faire
 
-dt = [16 8 4 2 1];
+dt = [0.0625 0.125 0.25 0.5 1];
 
 
 paramstr = 'dt'; % Nom du parametre a scanner, par exemple dt, w, x0, etc
@@ -31,7 +31,7 @@ output = cell(1, nsimul);
 for i = 1:nsimul
     filename = [paramstr, '=', num2str(param(i))];
     output{i} = [filename, '.out'];
-    c = sprintf('%s%s %s%s %s=%.15g output_observables=%s', repertoire, executable, repertoire, input, paramstr, param(i), output{i})
+    c = sprintf('%s %s %s %s%s %s%s %s=%.15g output_observables=%s', 'set', 'path=%path:C:\Program Files\MATLAB\R2020b\bin\win64;=%', '&', repertoire, executable, repertoire, input, paramstr, param(i), output{i})
     system(c);
     disp('Done.')
 end
@@ -73,30 +73,70 @@ end
 %% Figures %%
 %%%%%%%%%%%%%
 
+xbis = x;
+xbis(end) = [];
+dtbis = [0.0625 0.125 0.25 0.5];
+[a,b,c,d] = linearFit(dtbis.*dtbis, xbis);
+z = polyval([a, b], [0, 1]);
+extend = polyval([a, b], [0, 1]);
+s = sprintf('Linear fit: y = %.3fx + %.3f',a,b);
 figure
-plot(dt.*dt, x, '-k+')
+plot([0, 1], extend, 'linewidth', lw)
+hold on
+plot(dt.*dt, x, 'ko', 'MarkerSize', ms)
 set(gca,'fontsize',fs)
 xlabel('\Delta t^2')
-ylabel('Error on <x>')
+ylabel('<x>(t_{fin})')
+legend(s, 'Data obtained', 'Location', 'nw')
 grid on
 
+error_x2 = error_xbis;
+error_x2(end) = [];
+dtbis = [0.0625 0.125 0.25 0.5];
+[a,b,c,d] = linearFit(dtbis.*dtbis, error_x2);
+z = polyval([a, b], [0, 1]);
+extend = polyval([a, b], [0, 1]);
+s = sprintf('Linear fit: y = %.3fx + %.3f',a,b);
 figure
-plot(dt.*dt, error_x, '-k+')
+plot([0, 1], extend, 'linewidth', lw)
+hold on
+plot(dt.*dt, error_xbis, 'ko', 'MarkerSize', ms)
 set(gca,'fontsize',fs)
 xlabel('\Delta t^2')
-ylabel('Error on <\Delta x>')
+ylabel('<\Delta x>(t_{fin})')
+legend(s, 'Data obtained', 'Location', 'sw')
 grid on
 
+pbis = p;
+pbis(end) = [];
+dtbis = [0.0625 0.125 0.25 0.5];
+[a,b,c,d] = linearFit(dtbis.*dtbis, pbis);
+z = polyval([a, b], [0, 1]);
+extend = polyval([a, b], [0, 1]);
+s = sprintf('Linear fit: y = %.3fx + %.3f',a,b);
 figure
-plot(dt.*dt, p, '-k+')
+plot([0, 1], extend, 'linewidth', lw)
+hold on
+plot(dt.*dt, p, 'ko', 'MarkerSize', ms)
 set(gca,'fontsize',fs)
 xlabel('\Delta t^2')
-ylabel('Error on <p>')
+ylabel('<p>(t_{fin})')
+legend(s, 'Data obtained', 'Location', 'se')
 grid on
 
+error_p2 = error_pbis;
+error_p2(end) = [];
+dtbis = [0.0625 0.125 0.25 0.5];
+[a,b,c,d] = linearFit(dtbis.*dtbis, error_p2);
+z = polyval([a, b], [0, 1]);
+extend = polyval([a, b], [0, 1]);
+s = sprintf('Linear fit: y = %.5fx + %.5f',a,b);
 figure
-plot(dt.*dt, error_x, '-k+')
+plot([0, 1], extend, 'linewidth', lw)
+hold on
+plot(dt.*dt, error_pbis, 'ko', 'MarkerSize', ms)
 set(gca,'fontsize',fs)
 xlabel('\Delta t^2')
-ylabel('Error on <\Delta x> bis')
+ylabel('<\Delta p>(t_{fin})')
+legend(s, 'Data obtained', 'Location', 'nw')
 grid on

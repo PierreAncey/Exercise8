@@ -16,7 +16,7 @@ xda = 130.0      % limite de droite du senseur du detecteur
 xdb = 230.0      % limite de gauche du senseur du detecteur 
 
 % Numerique :
-dt = 1.0                                    % pas de temps
+dt = 1.0                                   % pas de temps
 Ninters = 256                               % nombre d'intervalles du maillage
 output_potential = output_potential.out     % output du potentiel V(x)
 output_squared_wave = output_psi2.out       % output de |psi(x,t)|^2

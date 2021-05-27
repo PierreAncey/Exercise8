@@ -7,5 +7,10 @@ ConfigFile.hpp
 ConfigFile.h
 Makefile
 
+<<<<<<< HEAD
 # Ignores certain folders
 /old/
+=======
+# Ignores certain folders 
+/old/
+>>>>>>> 8fa65b3cf7175a9a480a6d6ccbfa5e754ef11e91
