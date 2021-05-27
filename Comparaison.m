@@ -1,12 +1,13 @@
 %% Chargement des resultats %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fs=16;lw=2;
 fichier = 'output';
 data = load([fichier,'_observables.out']);
 t = data(:,1);
 xmoy = data(:,6);
 pmoy = data(:,8);
 
-x = 64.5715958017*sin(0.004*t);
+x = 64.571596*sin(0.004*t);
 p = 0.258286*cos(0.004*t);
 
 %% Figures %%
@@ -47,9 +48,9 @@ for i=size(x):1
     end
 end
 figure
-plot(t,abs((xmoy-x)./x),'-b','linewidth',lw)
+plot(t,abs((xmoy-x)./xmoy),'-b','linewidth',lw)
 hold on
-plot(t,abs((pmoy-p)./p),'--r','linewidth',lw)
+plot(t,abs((pmoy-p)./pmoy),'--r','linewidth',lw)
 set(gca,'fontsize',fs)
 grid on
 xlabel('t')
